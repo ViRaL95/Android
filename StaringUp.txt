@@ -1,0 +1,5 @@
+The Java Development KIt (JDK) is a software development enviornment used for developing java applications. 
+It includes the Java Runtime Environment (JRE), an interpreter/loader (Java), and a compiler (javac), an archiver (jar), a documentation generator (javadoc) 
+
+
+If you would like to just run java applications you can simply install the Java Runtime Environment, however if you would like to develop and run java applications you woull need the Java Development Kit

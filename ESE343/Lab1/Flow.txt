@@ -1,0 +1,25 @@
+Generating an Activity by entering File>>New>>Activity. 
+Included the name of the layout file with this .java file
+
+An oncreate file is created which is where you initialize your activity.
+
+onListItemSelected
+
+the following method is automatically called when one of the Fragments for HeadlineFragment is selected. This method is found in import android.view.*; By writing getLIstView we are returning the activitys list view widget, using the setItemChecked method we are setting the list fragment at the given position to be checked to be true. We then call the OnArticleSelected in the MainActivity class at the given position that was selected. 
+
+
+
+OnArticleSelected
+We then created a method named onArticleSelected(int position) within MainActivity.java. This method implements an interface which is also a method known as onHeadlineSelected, within a class known as HeadlineFragment. Within onArticleSelected(int position) we create a NewsFragment by retrieving an existing fragment and casting it. 
+***WE ARE ABLE TO RETRIEVE THE FRAGMENT MANAGER BY USING 
+
+getSupportFragmentManager()****
+
+fragment manager is an interface for interacting with fragment objects inside of an activity. 
+
+We then call findFragmentById() which finds a fragment that was identified by a given ID. Within this method we use R which holds the ID's. R is a class which contains only public constants. These public constants are the ids that are contained within the res file. In our xml file we have two different fragments one which is for the headlines and one which is for the actual news. Using R we are able to access the ID of the news by writing R.id.news_fragment, with news_fragment being the id of the actual fragment which contains the news. 
+Using this newsfragment object which was just created we are able to call another method called updateArticleView in the newsFragment class given the position of the article. 
+
+We then call the updateArticleView method located inside the NewsFragment class. This method takes a position value. 
+
+We then create a new TextView and then retrieve the current activity the fragment is located in by calling the getActivity method. After this we are able to use findViewsById() and use the id of the textview we have set up for the news which is just news. We set the text for that given article by calling setText using the given position (0 or 1 depending on which fragment in HeadlineFragment is selected )

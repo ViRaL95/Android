@@ -1,0 +1,121 @@
+android.name specifies the class name of the activity we are working with. 
+
+
+WHAT IS AN XML FILE?
+Extensible Markup Language files are plain text files that contain data. An RSS feed is an example of an XML file
+
+App Manifest
+
+Every application must have an AndroidManifest.xml in its root directory. 
+The Manifest does the following:
+
+1)It names the Java package for the application. The Java Package is a unique identifier for the application
+2)It describes the components of the application which includes the activities,services, broadcast receivers
+3) Declares Permission the app must have in order to access protected parts of the API
+
+Activity (located within App Manifest):
+Activities are the user's entry point for a user interaction within an app. Typically one activity in an app is specified as the main activity, which is the first screen to appear when the user launches the app. Each activity can then start another activity in order to perform different actions.
+
+In order to declare an activity we must open our App Manifest file and add in an activity element there, as a child of the <application> element.
+
+The following creates an activity within the App Manfiest file and adds an activity element there. 
+
+Intents/Intent-Filters(located within Activity):
+
+An intent is a messaging object which you can use to request an action from another app component. 
+
+The three main use cases of an intent are:
+1) Starting an Activity:
+An activity represents a single screen on an app. You can start a new instance of an activity by passing an intent to StartActivity(). The intent passed to StartActivity() describes the activity to start
+2) Starting a service
+
+3)Delivering  a Broadcast
+
+<activity android:name=".MainActivity">
+
+All activities must be represented by the <activity> element in the manifest file
+
+Intent Filters(located within Activity):
+Specifies the capabilities of an app 
+
+Powerful features that have the ability to launch an acitivty on explicit and implicit requests. 
+
+Intents that launch an explicit request: 
+Start the Send Email Activity on the GMAIL app
+
+Intents that launch an implicit request:
+Start a send email screen that can do the job.
+
+An intent filter includes an action element
+
+Any activity that specifies its action as MAIN 
+
+and 
+
+its category as LAUNCHER. The Launcher category is specifying that the following action can be handled when the launcher icon is tapped on the home screen.
+
+if the action's class is set to MAIN it says that the home screen was launched
+
+If the activity and category is filled in this scenario this activity can be handled.
+
+
+<intent-filter>
+    <action android:name="android.intent.action.MAIN" />
+
+    <category android:name="android.intent.category.LAUNCHER" />
+</intent-filter>
+
+Action(CONTAINED WITHIN INTENT FILTER):
+
+Category(CONTAINED WITHIN INTENT FILTER):
+
+Layouts:
+A layout defines the visual structure of a user interface, such as a UI for an activity or app widget.
+
+	DECLARING UI ELEMENTS IN XML:
+	Android performs a straightforward XML vocabulary that corresponds to view classes or subclasses such as those widgets and layouts.
+	For example you can create different XML layouts for different screen orientations 
+
+	Each layout file must contain exactly one root element which must be a View or ViewGroup object.
+
+	INSTANTIATING LAYOUT ELEMENTS AT RUNTIME:
+	Your application can create view or viewgroup elements. 
+
+
+Fragment:
+A fragment is a piece of an aplication's user interface or behavior that can be placed in an Activity. Interaction with fragments is done through FragmentManager, which can be obtained via Activity.getFragmentManager() and Fragment.getFragmentManager()
+
+A fragment is closely tied to the activity it is in and can not be used apart from one. Although fragment defines its own life cycle the lifecycle is dependent on its activity. If the activity is stopped fragments inside of it can not be started. When the activity is destroyed all fragments contained in it will be destroyed. 
+
+
+
+When you add a fragment to part of your activity layout it lives in a ViewGroup inside the activity's view hierarchy and the fragment defines its own view layout. You can insert a fragment into your activity layout by declaring the fragment in the activity layouts file as a <fragment> element or from your aplication code by adding it to an existing ViewGroup. However a fragment is not required to be part of the activity layout; you may also use a fragment without its own UI as an invisible worker for the acitivyt. 
+
+onAttach(Activity) called once the fragment is associated with an activity
+
+onCreate(Bundle) called to do initial creation of fragment
+
+onStart() makes the fragment visible to the user (based on its containing activity being started)
+
+
+ListFragment:
+
+A fragment that displays a list of items by binding to a data source such as an array or a cursor and exposes event handlers when the user selects an item.
+
+A list Fragment hosts a ListView Object or in other words a view that shows items in a vertically scrolling list.
+
+ListFragment has a default layout which consists of a single list view. 
+
+Layout:
+Using Android's XML vocabulary you can quickly define UI layouts and the screen elements they contain, in the same way you create a series of webpages in HTML. 
+
+Each layout must contain exactly one root element which must be either a View or a ViewGroup object. 
+
+android:layout_width has several options
+
+1) wrap_content 
+This view should be only big enough to enclose its content (plus padding)
+2) match_parent
+This wiew should be as big enough as its parent container 
+
+

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">FinalPart</string>
+    <string name="title_activity_display_news">DisplayNews</string>
+    <string name="title_activity_new_fragment">NewFragment</string>
+    <string name="title_activity_headline_fragment">HeadlineFragment</string>
+    <string name="hello_blank_fragment"></string>
+</resources>
