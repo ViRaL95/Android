@@ -1,76 +1,69 @@
 package com.example.varun.maps;
 
-import android.content.Context;
-import android.location.Location;
-import android.location.LocationManager;
-import android.support.v4.app.FragmentActivity;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.EditText;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.drive.Drive;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnConnectionFailedListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private GoogleApiClient mGoogleApiClient;
-    LocationManager locationManager;
-    private TextView mLatitudeText;
-    private TextView mLongitudeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
 
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient= new GoogleApiClient.Builder(this)
-                    .enableAutoManage(this /* FragmentActivity */,
-                            this /* OnConnectionFailedListener */)
-                    .addApi(Drive.API)
-                    .addScope(Drive.SCOPE_FILE)
-                    .setAccountName("varun.rao095@gmail.com")
-                    .build();
-        }
+    public void onMapSearch(View view) {
+        EditText locationSearch = (EditText) findViewById(R.id.editText);
+        String location = locationSearch.getText().toString();
+        List<Address> addressList = null;
 
-        locationManager=(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locationListener=new LocationListener() {
-            @Override
-            public  void onLocationChanged(Location location) {
+        if (location != null || !location.equals("")) {
+            Geocoder geocoder = new Geocoder(this);
+            try {
+                addressList = geocoder.getFromLocationName(location, 1);
 
-
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        };
-   }
-
-
-    public void onStart(){
-        mGoogleApiClient.connect();
-        super.onStart();
+            Address address = addressList.get(0);
+            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        }
     }
-    public void onConnected(Bundle connectionHint){
-       mLatitudeText =(TextView) findViewById(R.id.mLatitudeText);
-        mLongitudeText=(TextView) findViewById(R.id.mLongitudeText);
 
-      try {
-          Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                  mGoogleApiClient);
-          if (mLastLocation != null) {
-              mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-              mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
-          }
-      }
-      catch(SecurityException e){
-          System.out.println(e);
-      }
-    }
-    public void onConnectionFailed(ConnectionResult result){
-
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(27.746974, 85.301582);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Kathmandu, Nepal"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
     }
 }
